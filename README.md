@@ -91,3 +91,9 @@
     bower update frontui
 
 > 在使用frontui时需要注意frontui文件的路径
+
+## 待定
+
+创建H5类型项目
+
+    yo frontman:mobile
