@@ -1,7 +1,7 @@
 # frontman前端手脚架模板
 
 ## 简介
-![frontman]('./generators/app/templates/static/images/frontman.png')
+![frontman](generators/app/templates/static/images/frontman.png)
 
 `frontman`的目的是快速构建前端开发项目所需要的工具及基础配置，前端开发人员可以使用`yo frontman`命令生成基本项目框架后，再根据项目实际情况对配置进行调整。
 
