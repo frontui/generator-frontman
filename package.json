@@ -1,0 +1,37 @@
+{
+  "name": "generator-frontman",
+  "version": "0.1.0",
+  "description": "Yeoman generator",
+  "license": "MIT",
+  "main": "app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontui/generator-frontman.git"
+  },
+  "author": "frontui",
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "chalk": "^1.0.0",
+    "html-wiring": "^1.2.0",
+    "yeoman-generator": "^0.19.0",
+    "yosay": "^1.0.2"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "bugs": {
+    "url": "https://github.com/frontui/generator-frontman/issues"
+  },
+  "homepage": "https://github.com/frontui/generator-frontman#readme",
+  "directories": {
+    "test": "test"
+  }
+}
