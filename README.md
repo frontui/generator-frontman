@@ -32,6 +32,11 @@
 
     npm i gulp -g
 
+## 安装`generator-frontman`
+
+    npm install generator-frontman -g
+
+安装完成后，可在任何目录下使用`yo frontman`
 
 ## 新建项目
 
