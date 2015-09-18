@@ -11,18 +11,7 @@ var gulp   = require('gulp')
 var path   = require('path')
 var fs     = require('fs')
 var $      = require('gulp-load-plugins')()
-
-/*--- 公用函数 ---*/
-// 静态文件头部注释banner
-var banner = [
-  '/*! <%= pkg.name%> v<%= pkg.version%>',
-  '*  by <%= pkg.author%>',
-  '*  (c) 2014-'+ $.util.date(Date.now(), 'UTC:yyyy') + ' www.frontpay.cn',
-  '* updated on '+ $.util.date(Date.now(), 'UTC:yyyy-mm-dd'),
-  '*  Licensed under <%= pkg.license %>',
-  '*/',
-  ' '
-].join('\n');
+var Lib = require('./lib')
 
 // 服务启动根目录
 var serverRoot = __dirname
@@ -38,4 +27,4 @@ task(serverRoot);
 *  svn任务
 -------------*/
 var svnTask = require('./task/svnTask');
-svnTask(banner);
+svnTask(Lib.banner);

@@ -92,6 +92,47 @@ frontmanGenerator.prototype.projectfiles = function projectfiles() {
   this.template('_svn.json', 'svn.json', context);
   this.template('_gulpfile.js', 'gulpfile.js');
   this.template('_README.MD', 'README.MD', context);
+  /*this.fs.copyTpl(
+    this.templatePath('_bower.json'),
+    this.destinationPath('bower.json'),
+    context
+  );
+  this.fs.copyTpl(
+    this.templatePath('_package.json'),
+    this.destinationPath('package.json'),
+    context
+  );
+  this.fs.copyTpl(
+    this.templatePath('_config.json'),
+    this.destinationPath('config.json'),
+    context
+  );
+  this.fs.copyTpl(
+    this.templatePath('_editorconfig'),
+    this.destinationPath('editorconfig')
+  );
+  this.fs.copyTpl(
+    this.templatePath('_.gitignore'),
+    this.destinationPath('.gitignore')
+  );
+  this.fs.copyTpl(
+    this.templatePath('_jshintrc'),
+    this.destinationPath('jshintrc')
+  );
+  this.fs.copyTpl(
+    this.templatePath('_svn.json'),
+    this.destinationPath('svn.json'),
+    context
+  );
+  this.fs.copyTpl(
+    this.templatePath('_gulpfile.js'),
+    this.destinationPath('gulpfile.js')
+  );
+  this.fs.copyTpl(
+    this.templatePath('_README.MD'),
+    this.destinationPath('README.MD'),
+    context
+  );*/
 }
 
 // 安装npm 包
