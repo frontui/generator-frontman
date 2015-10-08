@@ -1,6 +1,7 @@
 /*--- 公用函数 ---*/
 var gulp   = require('gulp')
 var $      = require('gulp-load-plugins')()
+var pkg    = require('../package')
 
 // 静态文件头部注释banner
 var banner = [

@@ -1,10 +1,10 @@
 'use strict';
 var yeoman = require('yeoman-generator');
-var chalk = require('chalk');
-var yosay = require('yosay');
-var path = require('path');
-var util = require('util');
-var pkg = require('../../package.json')
+var chalk  = require('chalk');
+var yosay  = require('yosay');
+var path   = require('path');
+var util   = require('util');
+var config    = require('../../package.json')
 
 // 声明构造函数，继承Yeoman
 var frontmanGenerator = module.exports = function frontmanGenerator(args, options, config) {
@@ -16,7 +16,8 @@ var frontmanGenerator = module.exports = function frontmanGenerator(args, option
   }.bind(this))
 
   // 读取package
-  this.pkg = pkg;
+  //this.pkg = config;
+  //this.config = config;
 }
 
 // 继承
@@ -26,6 +27,7 @@ util.inherits(frontmanGenerator, yeoman.generators.NamedBase);
 frontmanGenerator.prototype.prompting = function askFor() {
   // 延迟执行
   var done = this.async();
+  //console.log(this)
 
   // 欢迎banner
   this.log(yosay(
@@ -38,31 +40,70 @@ frontmanGenerator.prototype.prompting = function askFor() {
       type: 'input',
       name: 'name',
       message: '请输入新建项目名字?',
-      default: this.appname
+      default: (this.appname || config.name)
+    },
+    {
+      type: 'input',
+      name: 'version',
+      message: '请输入版本号?',
+      default: '1.0.0'
     },
     {
       type: 'input',
       name: 'author',
       message: '您的名字?',
-      default: (this.pkg.author || 'frontui')
+      default: (config.author || 'frontui')
     },
     {
       type: 'input',
       name: 'description',
       message: '项目描述?',
-      default: 'A new project named '+ this.appname
+      default: 'A new project named '+ (this.appname || config.name)
     },
     {
       type: 'input',
       name: 'port',
       message: '测试服务启动端口?',
       default: '8520'
+    },
+    {
+      type: 'list',
+      name: 'features',
+      message: '请选择框架?',
+      choices: [
+        {
+          name: 'frontui',
+          value: 'includeFrontui',
+          checked: true
+        },
+        {
+          name: 'frontAdmin',
+          value: 'includeFrontAdmin',
+          checked: false
+        },
+        {
+          name: 'frontMobile',
+          value: 'includeFrontMobile',
+          checked: false
+        }
+      ]
     }
   ];
 
   // 询问流程
   this.prompt(prompts, function(props) {
+    var features = props.features;
     this.props = props;
+
+    // 判断是否有其他功能
+    function hasFeature(feat) {
+      return features && features.indexOf(feat) !== -1;
+    }
+
+    this.includeFrontui = hasFeature('includeFrontui');
+    this.includeFrontAdmin = hasFeature('includeFrontAdmin');
+    this.includeFrontMobile = hasFeature('includeFrontMobile');
+
     // 执行下一个任务
     done();
   }.bind(this))
@@ -81,6 +122,7 @@ frontmanGenerator.prototype.app = function app() {
 // 创建项目配置文件
 frontmanGenerator.prototype.projectfiles = function projectfiles() {
   var context = this.props;
+  context = util._extend(config, context);
 
   // 拷贝模板
   this.template('_bower.json', 'bower.json', context);
@@ -137,5 +179,9 @@ frontmanGenerator.prototype.projectfiles = function projectfiles() {
 
 // 安装npm 包
 frontmanGenerator.prototype.install = function(){
+  if(this.includeFrontui) this.bowerInstall(['frontui', 'jquery#^1', 'html5shiv', 'respond'], { 'saveDev': true });
+  //if(this.includeFrontAdmin) this.bowerInstall(['frontadmin'], { 'saveDev': true });
+  //if(this.includeFrontMobile) this.bowerInstall(['frontmobile'], { 'saveDev': true });
+
   this.installDependencies({ skipInstall: this.options['skip-install']})
 }

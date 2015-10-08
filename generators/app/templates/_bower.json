@@ -1,10 +1,6 @@
 {
   "name": "<%= name %>",
-  "version": "0.1.0",
+  "version": "<%= version %>",
   "dependencies": {
-    "jquery": "1.11.1",
-    "html5shiv": "~3.7.3",
-    "respond": "~1.4.2",
-    "frontui": "~1.0.0"
   }
 }

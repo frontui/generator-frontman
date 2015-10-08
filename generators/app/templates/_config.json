@@ -6,7 +6,7 @@
 	"template": "./template/",
 	"destPath" : "www",
 	"bower_components": "/bower_components",
-	"version": "1.0.0",
+	"version": "<%= version %>",
 	"sprite_padding": 20,
 	"bower_source": ["./bower_components/jquery/dist/jquery.min.js", "./bower_components/html5shiv/dist/html5shiv.min.js", "./bower_components/respond/dest/respond.min.js"]
 }

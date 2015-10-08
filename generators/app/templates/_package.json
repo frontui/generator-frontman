@@ -2,7 +2,7 @@
   "name": "<%= name %>",
   "author": "<%= author %>",
   "description": "<%= description %>",
-  "version": "0.1.0",
+  "version": "<%= version %>",
   "main": "gulpfile.js",
   "scripts" : "",
   "repository": {
