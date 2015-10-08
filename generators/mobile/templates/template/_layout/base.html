@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>{% block title %}{% endblock %}</title>
+	<script>(function() {
+		var mengvalue = -1, designwidth = 720;
+        var phoneWidth = parseInt(window.screen.width);
+        var phoneScale = phoneWidth / designwidth;
+        var ua = navigator.userAgent;
+        if (/Android (\d+\.\d+)/.test(ua)) {
+            var version = parseFloat(RegExp.$1);
+            // andriod 2.3
+            if (version > 2.3) {
+                document.write('<meta name="viewport" content="width='+ designwidth +', minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + '">');
+                // andriod 2.3以上
+            } else {
+                document.write('<meta name="viewport" content="width='+ designwidth +'">');
+            }
+            // 其他系统
+        } else {
+            document.write('<meta name="viewport" content="width='+ designwidth +', user-scalable=no">');
+        }
+	})();</script>
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/> -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta content="telephone=no" name="format-detection"/>
+    <meta content="address=no" name="format-detection"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    {% block globalCss %}{% endblock %}
+    {% block css %}{% endblock %}
+
+    {% block stylePage %}{% endblock %}
+</head>
+<body {% block bodyClass %}{% endblock %}>
+  {% block body %}{% endblock %}
+
+  {% block globalJs %}{% endblock %}
+  {% block js %}{% endblock %}
+  {% block jsPage %}{% endblock %}
+</body>
+</html>
