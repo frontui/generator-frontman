@@ -86,9 +86,9 @@ frontmanGenerator.prototype.projectfiles = function projectfiles() {
   this.template('_bower.json', 'bower.json', context);
   this.template('_package.json', 'package.json', context);
   this.template('_config.json', 'config.json', context);
-  this.template('_editorconfig', 'editorconfig');
+  this.template('_.editorconfig', '.editorconfig');
   this.template('_.gitignore', '.gitignore');
-  this.template('_jshintrc', 'jshintrc');
+  this.template('_.jshintrc', '.jshintrc');
   this.template('_svn.json', 'svn.json', context);
   this.template('_gulpfile.js', 'gulpfile.js');
   this.template('_README.MD', 'README.MD', context);
