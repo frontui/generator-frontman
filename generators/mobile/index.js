@@ -69,8 +69,13 @@ frontmanGenerator.prototype.prompting = function askFor() {
     {
       type: 'list',
       name: 'features',
-      message: '请选择框架?',
+      message: '请选择MVC框架?',
       choices: [
+        {
+          name: 'none',
+          value: 'none',
+          checked: true
+        },
         {
           name: 'angluar',
           value: 'includeAngular',
