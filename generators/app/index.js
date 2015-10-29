@@ -179,7 +179,17 @@ frontmanGenerator.prototype.projectfiles = function projectfiles() {
 
 // 安装npm 包
 frontmanGenerator.prototype.install = function(){
-  if(this.includeFrontui) this.bowerInstall(['frontui', 'jquery#^1', 'html5shiv', 'respond'], { 'saveDev': true });
+  if(this.includeFrontui){
+    this.bowerInstall(['frontui', 'jquery#^1', 'html5shiv', 'respond'], { 'saveDev': true }, (function(){
+      // 自动拷贝文件
+      this.directory(this.destinationPath('bower_components/frontui/iconfont'), 'static/iconfont');
+      this.directory(this.destinationPath('bower_components/frontui/iconfont-ie7'), 'static/iconfont-ie7');
+      this.directory(this.destinationPath('bower_components/frontui/images'), 'static/images');
+      this.directory(this.destinationPath('bower_components/frontui/js'), 'static/js');
+      this.directory(this.destinationPath('bower_components/frontui/less'), 'static/less');
+
+    }).bind(this));
+  } 
   //if(this.includeFrontAdmin) this.bowerInstall(['frontadmin'], { 'saveDev': true });
   //if(this.includeFrontMobile) this.bowerInstall(['frontmobile'], { 'saveDev': true });
 

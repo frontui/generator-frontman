@@ -103,6 +103,15 @@ module.exports = function defaultTask(serverRoot) {
       gulp.watch(config.staticPath + '/images/sprite/sprite-*/**/**', ['sprite'])
   })
 
+  //-- 更新frontui
+  gulp.task('bower', function(){
+    return $.bower({cmd: 'update'})
+  });
+  gulp.task('frontui', function() {
+      return gulp.src('./bower_components/frontui/{iconfont,iconfont-ie7,images,js,less}/**/**')
+      .pipe(gulp.dest(config.staticPath));
+  });
+
 
   /**
    * 默认任务
