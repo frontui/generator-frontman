@@ -90,9 +90,9 @@ module.exports = function defaultTask(serverRoot) {
           livereload: true
       });
 
-      console.log('server start at: http://localhost:' + config.port + '/'+ config.destPath)
+      console.log('server start at: http://'+ Lib.getHost() +':' + config.port + '/'+ config.destPath)
 
-      Lib.openURL('http://localhost:' + config.port + '/' + config.destPath)
+      Lib.openURL('http://'+ Lib.getHost() +':' + config.port + '/' + config.destPath)
   })
 
   //-- 文件监听
