@@ -14,7 +14,7 @@ var connect = $.connect
 
 var Lib    = require('../lib')
 
-module.exports = function svn(banner) {
+module.exports = function svnTask(banner) {
   // 模板
   gulp.task('svnTemplate', function(){
       return gulp.src(['./'+ config.destPath + '/**/**.html'])
@@ -52,7 +52,7 @@ module.exports = function svn(banner) {
   })
 
   gulp.task('svnBowerJs', function(){
-      return gulp.src(config.jsPath)
+      return gulp.src(config.bower_source)
               .pipe($.changed(svn.staticPath))
               .pipe(gulp.dest(svn.staticPath+'/js'))
   })

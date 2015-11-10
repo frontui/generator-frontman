@@ -27,7 +27,7 @@ static/css
 static/css/
 
 *.exe
-svn.json
+#svn.json
 
 .c9*
 .settings
