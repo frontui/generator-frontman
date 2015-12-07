@@ -14,13 +14,16 @@ var connect = $.connect
 
 var Lib    = require('../lib')
 
-module.exports = function svn(banner) {
+var rename = require('gulp-regex-rename')
+
+module.exports = function svnTask(banner) {
   // 模板
   gulp.task('svnTemplate', function(){
       return gulp.src(['./'+ config.destPath + '/**/**.html'])
               //.pipe($.changed(svn.path))
               .pipe($.replace(/\/static/g, './static'))
               .pipe($.replace(/"(\/)bower_components\/(.*)\/([a-zA-Z0-9.]+\.js)(.*)"/g, '"'+ config.staticPath +'/js/$3$4"'))
+              .pipe($.replace(/\.debug\.css/g, '.css'))
               .pipe(gulp.dest(svn.path))
   });
 
@@ -32,8 +35,13 @@ module.exports = function svn(banner) {
   })
 
   // css
-  gulp.task('svnCss', function(){
-      return gulp.src([config.staticPath+'/css/**/**.css'], {base: 'client'})
+  gulp.task('renameCss', function() {
+    return gulp.src([config.staticPath+'/css/**/**.debug.css'])
+                .pipe(rename(/\.debug\.css/, '.css'))
+                .pipe(gulp.dest(config.staticPath+'/css'))
+  });
+  gulp.task('svnCss', ['renameCss'], function(){
+      return gulp.src([config.staticPath+'/css/**/**.css', '!'+config.staticPath+'/css/**/**.debug.css'], {base: 'client'})
           .pipe($.plumber( { errorHandler: Lib.errHandler } ))
           .pipe($.changed(svn.staticPath))
           .pipe($.minifyCss({compatibility: 'ie7'}))

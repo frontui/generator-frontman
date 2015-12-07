@@ -19,6 +19,8 @@ var pngquant = require('imagemin-pngquant')
 var spritesmith = require('gulp.spritesmith')
 var merge = require('merge-stream')
 
+var px2rem = require('gulp-px3rem')
+
 
 module.exports = function defaultTask(serverRoot) {
 
@@ -37,6 +39,8 @@ module.exports = function defaultTask(serverRoot) {
                   .pipe($.plumber( { errorHandler: errHandler } ))
                   .pipe($.less())
                   .pipe($.autoprefixer())
+                  // 转换成rem单位
+                  .pipe(px2rem())
                   .pipe(gulp.dest(config.staticPath+'/css'))
                   .pipe(connect.reload())
   })
