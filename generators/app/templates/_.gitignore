@@ -12,6 +12,10 @@ build/node_modules/
 output/
 www
 www/
+tmp
+tmp/
+temp
+temp/
 
 
 tags
@@ -50,3 +54,6 @@ $RECYCLE.BIN/
 
 *.swo
 *.swp
+
+.vscode
+.vscode/

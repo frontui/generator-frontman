@@ -8,5 +8,30 @@
 	"bower_components": "/bower_components",
 	"version": "<%= version %>",
 	"sprite_padding": 20,
-	"bower_source": ["./bower_components/jquery/dist/jquery.min.js", "./bower_components/html5shiv/dist/html5shiv.min.js", "./bower_components/respond/dest/respond.min.js"]
+	"bower_source": ["./bower_components/jquery/dist/jquery.min.js", "./bower_components/html5shiv/dist/html5shiv.min.js", "./bower_components/respond/dest/respond.min.js"],
+  "docs": {
+    "port": 5432,
+    "srcPath": "./doc",
+    "destPath": "./www/docs",
+    "template": "/template/index.html"
+  },
+  "thirdPart": {
+    "default": {
+        "name": "default",
+        "port": "<%= parseInt(port)+3 %>",
+        "template": [
+          ["index.html"],
+          ["pay.html"]
+        ],
+        "version": "v1.0",
+        "newVer": 1,
+        "noHeader": 0,
+        "dest": "../third-part/default/",
+        "title": "默认",
+        "logo": "默认",
+        "logo_image": "logo.png",
+        "logosmall": "招商银行  提供支持",
+        "theme": "default.css"
+      }
+  }
 }

@@ -1,7 +1,7 @@
 {
 	"name": "<%= name %>",
 	"version": "<%= version %>",
-	"port": "8251",
+	"port": "<%= ++port %>",
 	"path": "../../svn/<%= name %>",
-	"staticPath": "../../svn/<%= name %>/static"
+	"staticPath": "/static"
 }

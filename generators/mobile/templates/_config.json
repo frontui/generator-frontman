@@ -8,5 +8,11 @@
 	"bower_components": "/bower_components",
 	"version": "<%= version %>",
 	"sprite_padding": 20,
-	"jsPath": []
+	"jsPath": [],
+  "docs": {
+    "port": "<%= parseInt(port) + 5 %>",
+    "srcPath": "./doc",
+    "destPath": "./www/docs",
+    "template": "/template/index.html"
+  }
 }

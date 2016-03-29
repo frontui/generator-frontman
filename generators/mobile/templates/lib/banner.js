@@ -14,6 +14,4 @@ var banner = [
   ' '
 ].join('\n');
 
-module.exports = function() {
-  return banner;
-}
+module.exports = banner;

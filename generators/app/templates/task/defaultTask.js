@@ -25,18 +25,25 @@ module.exports = function defaultTask(serverRoot) {
   // 模板
   gulp.task('template', function(){
   	return gulp.src([config.template + '/**/**.html', '!'+ config.template + '/**/_**.html', '!'+ config.template +'/_**/*.html'])
-                  .pipe($.plumber( { errorHandler: errHandler } ))
+                  .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
           				.pipe(template(config))
           				.pipe(gulp.dest(config.destPath))
                   .pipe(connect.reload())
   });
 
   // less
+  // autoprefix
+  //    browsers:
+  //      'last 2 versions',
+  //      'ie6-8',
+  //      'iOS 7',
+  //      'not ie <= 8'
+  //      etc...
   gulp.task('less', function(){
       return gulp.src([config.staticPath+'/less/**/**.less', '!'+ config.staticPath +'/_**/**', '!'+ config.staticPath + '/**/_*.less'])
-                  .pipe($.plumber( { errorHandler: errHandler } ))
+                  .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
                   .pipe($.less())
-                  .pipe($.autoprefixer())
+                  .pipe($.autoprefixer('last 2 version', 'ie 6-8'))
                   .pipe(gulp.dest(config.staticPath+'/css'))
                   .pipe(connect.reload())
   })
@@ -92,7 +99,7 @@ module.exports = function defaultTask(serverRoot) {
 
       console.log('server start at: http://localhost:' + config.port + '/'+ config.destPath)
 
-      Lib.openURL('http://localhost:' + config.port + '/' + config.destPath)
+      Lib.openUrl('http://'+ Lib.getIPAdress() +':' + config.port + '/' + config.destPath)
   })
 
   //-- 文件监听

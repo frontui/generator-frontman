@@ -27,6 +27,20 @@ module.exports = function svnTask(banner) {
               .pipe(gulp.dest(svn.path))
   });
 
+  // 构建js
+  gulp.task('buildJS', function(){
+      return gulp.src(['./'+ config.destPath + '/**/**.html'])
+                //.pipe($.replace(/^\/static/g, 'static'))
+                .pipe($.usemin({
+                    //assetsDir: __dirname,
+                    outputRelativePath: staticPath,
+                    path: staticPath,
+                    //js: [function() { return $.uglify({mangle: false})}]
+                    js: [$.uglify]
+                }))
+                .pipe(gulp.dest(config.destPath));
+  });
+
   // 拷贝
   gulp.task('svnCopy', function(){
       return gulp.src([config.staticPath + '/iconfont/**/**', config.staticPath + '/iconfont-ie7/**/**'], {base: 'client'})
@@ -44,7 +58,7 @@ module.exports = function svnTask(banner) {
       return gulp.src([config.staticPath+'/css/**/**.css', '!'+config.staticPath+'/css/**/**.debug.css'], {base: 'client'})
           .pipe($.plumber( { errorHandler: Lib.errHandler } ))
           .pipe($.changed(svn.staticPath))
-          .pipe($.minifyCss({compatibility: 'ie7'}))
+          .pipe($.cleanCss({compatibility: 'ie7'}))
           .pipe($.header(banner, { pkg: pkg}))
           .pipe(gulp.dest(svn.staticPath))
   })
@@ -59,7 +73,7 @@ module.exports = function svnTask(banner) {
           .pipe(gulp.dest(svn.staticPath))
   })
 
-  gulp.task('svnBowerJs', function(){
+  gulp.task('svnBowerJs', ['buildJS'], function(){
       return gulp.src(config.jsPath)
               .pipe($.changed(svn.staticPath))
               .pipe(gulp.dest(svn.staticPath+'/js'))
@@ -80,15 +94,20 @@ module.exports = function svnTask(banner) {
           .pipe(gulp.dest(svn.staticPath+'/images'))
   })
 
-  gulp.task('svnServer', ['svnTemplate', 'svnCopy', 'svnCss', 'svnJs', 'svnImage', 'svnBowerJs'], function(){
+  gulp.task('svnDoc', function() {
+    return gulp.src([config.docs.destPath+'/**/**', '!'+config.docs.destPath+'/template/**'])
+                .pipe(gulp.dest(svn.path+'/docs'))
+  });
+
+  gulp.task('svnServer', ['svnDoc', 'svnTemplate', 'svnCopy', 'svnCss', 'svnJs', 'svnImage', 'svnBowerJs'], function(){
       connect.server({
           root: svn.path,
           port: svn.port
       });
 
-      console.log('server start at: http://localhost:' + svn.port + '/')
+      console.log('server start at: http://'+ Lib.getIPAdress() +':' + svn.port + '/')
 
-      Lib.openURL('http://localhost:' + svn.port + '/')
+      Lib.openUrl('http://'+ Lib.getIPAdress() +':' + svn.port + '/')
   })
 
   gulp.task('svn', function(){

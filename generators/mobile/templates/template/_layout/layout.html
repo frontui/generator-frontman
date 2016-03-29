@@ -8,6 +8,26 @@
 {% endblock %}
 
 {% block globalJs %}
-    <!-- <script src="{{ bower_components }}/jquery/dist/jquery.min.js?v={{ version }}"></script>
-    <script src="{{ static }}/js/common.js"></script> -->
+    {# 合并任务 #}
+    <!-- build:js {{ static }}/js/main.js -->
+    <script src="{{ static }}/js/lib/require.js"></script>
+    <script src="{{ static }}/js/config.js"></script>
+    <script src="{{ static }}/js/lib/zepto.js"></script>
+    <script src="{{ static }}/js/lib/tap.js"></script>
+    <script src="{{ static }}/js/lib/template.js"></script>
+
+    {# 组件 #}
+    <script src="{{ static }}/js/components/searchbar.js"></script>
+    <script src="{{ static }}/js/components/tab.js"></script>
+    <script src="{{ static }}/js/components/panel.js"></script>
+    <script src="{{ static }}/js/components/loading.js"></script>
+    <script src="{{ static }}/js/components/dialog.js"></script>
+    <script src="{{ static }}/js/components/alert.js"></script>
+    <script src="{{ static }}/js/components/loadMore.js"></script>
+    <script src="{{ static }}/js/components/validator.js"></script>
+
+
+    {# 启用组件 #}
+    <script src="{{ static }}/js/common.js"></script>
+    <!-- endbuild -->
 {% endblock %}

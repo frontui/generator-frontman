@@ -2,5 +2,6 @@
   "name": "<%= name %>",
   "version": "<%= version %>",
   "dependencies": {
+    "frontui": "^1.2.8"
   }
 }

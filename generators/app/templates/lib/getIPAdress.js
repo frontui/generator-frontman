@@ -6,15 +6,19 @@ var os = require('os');
  */
 var getIPAddress = function () {
   var ifaces = os.networkInterfaces();
-  var ip = '';
+  var ip = '', result = [];
   for (var dev in ifaces) {
     ifaces[dev].forEach(function (details) {
       if (ip === '' && details.family === 'IPv4' && !details.internal) {
         ip = details.address;
         return;
+        //result.push(details)
       }
     });
   }
+
+  //if(result.length > 0) ip = result.reverse()[0].address;
+
   return ip || "127.0.0.1";
 };
 

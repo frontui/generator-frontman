@@ -5,13 +5,29 @@ var yosay  = require('yosay');
 var path   = require('path');
 var util   = require('util');
 var config    = require('../../package.json')
+var replace = require('replace')
 
 // 声明构造函数，继承Yeoman
 var frontmanGenerator = module.exports = function frontmanGenerator(args, options, config) {
   // 继承
   yeoman.generators.Base.apply(this, arguments);
 
+  var cwd = this.env.cwd;
+
   this.on('end', function(){
+
+    // 替换路径
+      replace({
+        regex: "../bower_components",
+        replacement: "../../bower_components",
+        paths: [cwd+'/static/less'],
+        recursive: true,
+        silent: true
+      })
+      //this.spawnCommand('replace "../bower_components" "../../bower_components" ./static/less -r');
+
+      console.log('replace the path of bower_components is success!');
+
     this.log( chalk.red('FrontMan') + ' 手脚架环境已经搭建完毕，现在可以开桑玩耍了！');
   }.bind(this))
 
@@ -114,6 +130,7 @@ frontmanGenerator.prototype.prompting = function askFor() {
     this.includeVuejs = hasFeature('includeVuejs');
     this.includeReact = hasFeature('includeReact');
     this.includeBackbone = hasFeature('includeBackbone');
+    this.includeDefault = hasFeature('none');
 
     // 执行下一个任务
     done();
@@ -126,6 +143,7 @@ frontmanGenerator.prototype.app = function app() {
   this.directory('static', 'static');
   this.directory('template', 'template');
   this.directory('task', 'task');
+  this.directory('doc', 'doc');
   this.directory('lib', 'lib');
   this.log('static & template 目录创建完毕！');
 }
@@ -149,10 +167,29 @@ frontmanGenerator.prototype.projectfiles = function projectfiles() {
 
 // 安装npm 包
 frontmanGenerator.prototype.install = function(){
+
+  // 延迟执行
+  //var done = this.async();
+
   if(this.includeAngular) this.bowerInstall(['angular', 'angular-route', 'angular-touch'], { 'saveDev': true });
   if(this.includeVuejs) this.bowerInstall(['vue', 'vue-touch'], { 'saveDev': true });
   if(this.includeReact) this.bowerInstall(['react'], { 'saveDev': true });
   if(this.includeBackbone) this.bowerInstall(['backbone', 'underscore', 'jquery'], { 'saveDev': true });
+
+  // 默认安装 frontui-mobile
+  if(this.includeDefault) {
+    console.log('------ install frontui-mobile --------');
+    this.npmInstall(['frontui-mobile'], { 'saveDev': true }, (function() {
+      // 自动拷贝文件
+      this.directory(this.destinationPath('node_modules/frontui-mobile/js'), 'static/js');
+      this.directory(this.destinationPath('node_modules/frontui-mobile/images'), 'static/images');
+      this.directory(this.destinationPath('node_modules/frontui-mobile/less'), 'static/less');
+      this.directory(this.destinationPath('node_modules/frontui-mobile/iconfont'), 'static/iconfont');
+
+      //done();
+
+    }).bind(this));
+  }
 
   this.installDependencies({ skipInstall: this.options['skip-install']})
 }

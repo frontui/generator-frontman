@@ -1,1 +1,30 @@
 node_modules/
+node_modules
+
+.idea
+.idea/
+.idea/*
+
+bower_components
+bower_components/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Mac crap
+.DS_Store
+
+.svn
+
+*.swo
+*.swp
+.bowerrc
+
+*.log
