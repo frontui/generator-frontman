@@ -30,6 +30,7 @@ module.exports = function docTask() {
             .pipe($.rename({
               extname: '.html'
             }))
+            .pipe($.prettify({indent_size: 2}))
             .pipe(gulp.dest(destUrl))
             .pipe(connect.reload());
   });

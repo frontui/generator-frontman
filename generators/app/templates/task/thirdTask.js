@@ -124,6 +124,7 @@ module.exports = function defaultTask(serverRoot, banner) {
       return gulp.src(distPath+'/**/**.html')
         .pipe($.replace(/\/static/g, '../../static'))
         .pipe($.replace(/"(\/)bower_components\/(.*)\/([a-zA-Z0-9.]+\.js)(.*)"/g, '"../../static/js/$3$4"'))
+        .pipe($.prettify({indent_size: 2}))
         .pipe(gulp.dest(svn.path + '/thirdPart/' + Settings.name));
     });
 

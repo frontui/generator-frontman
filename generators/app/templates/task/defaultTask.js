@@ -27,6 +27,7 @@ module.exports = function defaultTask(serverRoot) {
   	return gulp.src([config.template + '/**/**.html', '!'+ config.template + '/**/_**.html', '!'+ config.template +'/_**/*.html'])
                   .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
           				.pipe(template(config))
+                  .pipe($.prettify({indent_size: 2}))
           				.pipe(gulp.dest(config.destPath))
                   .pipe(connect.reload())
   });

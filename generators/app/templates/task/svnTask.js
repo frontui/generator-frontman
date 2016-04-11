@@ -22,6 +22,7 @@ module.exports = function svnTask(banner) {
   // 模板
   gulp.task('svnTemplate', function(){
       return gulp.src(['./'+ config.destPath + '/**/**.html'])
+              .pipe($.prettify({indent_size: 2}))
               //.pipe($.changed(svn.path))
               .pipe($.replace(/\/static/g, './static'))
               .pipe($.replace(/"(\/)bower_components\/(.*)\/([a-zA-Z0-9.]+\.js)(.*)"/g, '"'+ config.staticPath +'/js/$3$4"'))

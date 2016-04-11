@@ -24,6 +24,7 @@ module.exports = function svnTask(banner) {
               .pipe($.replace(/\/static/g, './static'))
               .pipe($.replace(/"(\/)bower_components\/(.*)\/([a-zA-Z0-9.]+\.js)(.*)"/g, '"'+ config.staticPath +'/js/$3$4"'))
               .pipe($.replace(/\.debug\.css/g, '.css'))
+              .pipe($.prettify({indent_size: 2}))
               .pipe(gulp.dest(svn.path))
   });
 
