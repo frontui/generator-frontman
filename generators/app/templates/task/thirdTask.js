@@ -4,10 +4,9 @@
 *  更新日志
 *  config.json给任务项增加 `newVer`，新版第三方框架
 */
-var gulp = require('gulp');
+
 var config = require('../config.json')
 var pkg    = require('../package.json')
-var svn    = require('../svn.json')
 var gulp   = require('gulp')
 var path   = require('path')
 var fs     = require('fs')
@@ -17,10 +16,6 @@ var connect = $.connect
 var Lib        = require('../lib')
 var errHandler = Lib.errHandler
 var template   = Lib.template(config.template);
-
-var pngquant = require('imagemin-pngquant')
-var spritesmith = require('gulp.spritesmith')
-var merge = require('merge-stream')
 
 var del = require('del')
 
@@ -42,19 +37,16 @@ module.exports = function defaultTask(serverRoot, banner) {
   /* 多任务处理函数 */
   var frameworkTask = function(Settings, debug) {
     var tpls = Settings.template;
-    //var templates = tpls.join('|').split('|');
     var distPath = path.join(thirdPartDist, Settings.name);
 
     // 要处理的模板，拼接绝对的本地路径
     var templates = [].concat.apply([], tpls);
-    //console.log(templates)
     templates = templates.map(function(tpl){
       return config.template + tpl;
     });
 
     // 所有处理模板，使用给第三方框架
     gulp.task('third:updateTemplate', function(next){
-      //console.log(templates);
         return gulp.src(templates)
           .pipe($.replace(/wrapper\.html/g, 'third.html'))
           .pipe($.replace(/casher-frame\.html/g, 'third.html'))
@@ -103,8 +95,6 @@ module.exports = function defaultTask(serverRoot, banner) {
     // ------
     // 更新到svn
     gulp.task('third:svnCss', ['third:less'], function(next) {
-      //console.log(banner);
-
         return gulp.src(thirdStatic+'/css/**/**.css', {base: 'client'})
                   .pipe($.minifyCss({compatibility: 'ie7'}))
                   .pipe($.header(banner, { pkg: pkg}))

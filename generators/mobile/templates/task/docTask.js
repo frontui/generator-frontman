@@ -2,10 +2,8 @@
  * 生成开发文档
  *
  */
-var gulp = require('gulp');
 var config = require('../config.json')
 var pkg    = require('../package.json')
-var svn    = require('../svn.json')
 var gulp   = require('gulp')
 var path   = require('path')
 var fs     = require('fs')

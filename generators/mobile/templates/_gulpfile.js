@@ -6,7 +6,6 @@
 
 var config = require('./config.json')
 var pkg    = require('./package.json')
-var svn    = require('./svn.json')
 var gulp   = require('gulp')
 var path   = require('path')
 var fs     = require('fs')
@@ -19,18 +18,20 @@ var serverRoot = __dirname
 /*-------------
 *  默认任务
 -------------*/
-var task = require('./task/defaultTask');
-task(serverRoot);
+require('./task/defaultTask')(serverRoot);
 
 
 /*-------------
 *  svn任务
 -------------*/
-var svnTask = require('./task/svnTask');
-svnTask(Lib.banner);
+require('./task/svnTask')(Lib.banner);
+
+/*-------------
+*  sprite
+-------------*/
+// require('./task/spriteTask')();
 
 /*--------
 *  doc说明文档
 ------------- */
-var docTask = require('./task/docTask')
-docTask(config.docs)
+require('./task/docTask')(config.docs)

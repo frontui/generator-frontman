@@ -5,7 +5,6 @@
 
 var config = require('./config.json')
 var pkg    = require('./package.json')
-var svn    = require('./svn.json')
 var gulp   = require('gulp')
 var path   = require('path')
 var fs     = require('fs')
@@ -18,18 +17,33 @@ var serverRoot = __dirname
 /*-------------
 *  默认任务
 -------------*/
-var task = require('./task/defaultTask');
-task(serverRoot);
+require('./task/defaultTask')(serverRoot);
+
+/*--------
+*  更新 UI库 任务
+------------- */
+require('./task/updateTask')()
+
+/*--------
+*  合并 sprite 任务
+------------- */
+// preload: npm install gulp.spritesmith imagemin-pngquant merge-stream --save
+// require('./task/spriteTask')()
 
 
 /*-------------
 *  svn任务
 -------------*/
-var svnTask = require('./task/svnTask');
-svnTask(Lib.banner);
+// require('./task/svnTask')(Lib.banner);
+
+/*--------
+*  tfs任务
+------------- */
+// preload: npm install gulp-tfs-fp --save-dev
+// require('./task/tfsTask')()
 
 /*--------
 *  doc说明文档
 ------------- */
-// var docTask = require('./task/docTask')
-// docTask(config.docs)
+// require('./task/docTask')(config.docs)
+
