@@ -15,13 +15,20 @@ var connect = $.connect
 
 var Lib        = require('../lib')
 var errHandler = Lib.errHandler
-var template   = Lib.template(config.template);
+var template   = Lib.template(config.template)
+
+var del = require('del')
 
 
 module.exports = function defaultTask(serverRoot) {
 
+  // 清除旧模板
+  gulp.task('template:clean', function(cb) {
+      del([config.destPath], cb)
+  })
+
   // 模板
-  gulp.task('template', function(){
+  gulp.task('template', ['template:clean'], function(){
   	return gulp.src([config.template + '/**/**.html', '!'+ config.template + '/**/_**.html', '!'+ config.template +'/_**/*.html'])
                   .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
           				.pipe(template(config))
@@ -55,7 +62,7 @@ module.exports = function defaultTask(serverRoot) {
           livereload: true
       });
 
-      console.log('server start at: http://localhost:' + config.port + '/'+ config.destPath)
+      //console.log('server start at: http://localhost:' + config.port + '/'+ config.destPath)
 
       Lib.openUrl('http://'+ Lib.getIPAdress() +':' + config.port + '/' + config.destPath)
   })

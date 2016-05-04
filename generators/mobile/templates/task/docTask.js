@@ -50,7 +50,7 @@ module.exports = function docTask() {
       livereload: true
     });
 
-    console.log('server start at: http://'+ Lib.getIPAdress() +':'+ config.docs.port +'/')
+    //console.log('server start at: http://'+ Lib.getIPAdress() +':'+ config.docs.port +'/')
 
     Lib.openUrl('http://'+ Lib.getIPAdress() +':'+ config.docs.port +'/')
   })

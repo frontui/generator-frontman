@@ -26,6 +26,11 @@ require('./task/defaultTask')(serverRoot);
 -------------*/
 require('./task/svnTask')(Lib.banner);
 
+/*--------
+*  tfs
+------------- */
+// require('./task/tfsTask')()
+
 /*-------------
 *  sprite
 -------------*/

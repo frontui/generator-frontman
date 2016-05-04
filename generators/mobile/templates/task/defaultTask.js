@@ -48,7 +48,7 @@ module.exports = function defaultTask(serverRoot) {
           livereload: true
       });
 
-      console.log('server start at: http://'+ Lib.getIPAdress() +':' + config.port + '/'+ config.destPath)
+      //console.log('server start at: http://'+ Lib.getIPAdress() +':' + config.port + '/'+ config.destPath)
 
       Lib.openUrl('http://'+ Lib.getIPAdress() +':' + config.port + '/' + config.destPath)
   })

@@ -2,7 +2,6 @@
  * 生成环境，更新到SVN
  *
  */
-var gulp = require('gulp');
 var config = require('../config.json')
 var pkg    = require('../package.json')
 var svn    = require('../svn.json')
@@ -20,7 +19,7 @@ module.exports = function svnTask(banner) {
   var tmpPath = './tmp';
 
   // 模板
-  gulp.task('svnTemplate', function(){
+  gulp.task('svnTemplate', ['template'], function(){
       return gulp.src(['./'+ config.destPath + '/**/**.html'])
               .pipe($.prettify({indent_size: 2}))
               //.pipe($.changed(svn.path))
@@ -72,13 +71,15 @@ module.exports = function svnTask(banner) {
       return gulp.src([config.staticPath+'/images/**/**', '!'+config.staticPath+'/images/sprite/sprite-**/', '!'+config.staticPath+'/images/sprite/sprite-**/**/**'])
           .pipe($.plumber( { errorHandler: Lib.errrHandler } ))
           //.pipe($.changed(svn.staticPath))
-          .pipe($.imagemin({
-                      optimizationLevel: 5,
-                      progressive: true,
-                      svgoPlugins: [{removeViewBox: false}]//,
-                      //use: [pngquant()]
-                  })
-          )
+          // 启用压缩要先安装gulp-imagemin，时间比较长
+          // npm install gulp-imagemin --save
+          //.pipe($.imagemin({
+          //            optimizationLevel: 5,
+          //            progressive: true,
+          //            svgoPlugins: [{removeViewBox: false}]//,
+          //           //use: [pngquant()]
+          //        })
+          //)
           //.pipe(gulp.dest(svn.staticPath+'/images'))
           .pipe(gulp.dest(tmpPath + svn.staticPath+'/images'))
   })
@@ -88,36 +89,32 @@ module.exports = function svnTask(banner) {
                 .pipe(gulp.dest(svn.path+'/docs'))
   });
 
-  gulp.task('zip', ['svnTemplate', 'svnCopy', 'svnCss', 'svnJs', 'svnImage', 'svnBowerJs', 'svnDoc'],function() {
-    return gulp.src(tmpPath+'/**/**')
-            .pipe($.zip(pkg.name+'.zip'))
-            .pipe(gulp.dest(tmpPath))
-  });
-
-  gulp.task('build', ['zip'], function() {
+  gulp.task('build', ['svnTemplate', 'svnCopy', 'svnCss', 'svnJs', 'svnImage', 'svnBowerJs', 'svnDoc'], function() {
     return gulp.src(tmpPath+'/**/**')
               .pipe(gulp.dest(svn.path))
   })
 
-  gulp.task('removeTmp', function() {
-    del([tmpPath, tmpPath+'/**/**'])
-  })
-
-  gulp.task('svnServer', ['build'], function(){
+  gulp.task('svnServer', ['build'], function(cb){
       connect.server({
           root: svn.path,
           port: svn.port
       });
 
-      console.log('server start at: http://'+ Lib.getIPAdress() +':' + svn.port + '/')
+      //console.log('server start at: http://'+ Lib.getIPAdress() +':' + svn.port + '/')
 
       Lib.openUrl('http://'+ Lib.getIPAdress() +':' + svn.port + '/')
 
       // 删除临时文件夹
-      del([tmpPath, tmpPath+'/**/**']);
+      del([tmpPath, tmpPath+'/**/**'], cb);
   })
 
   gulp.task('svn', function(){
       gulp.start(['svnServer']);
+  });
+
+  gulp.task('svn:zip', ['svn'], function() {
+    return gulp.src(tmpPath+'/**/**')
+            .pipe($.zip(pkg.name+'.zip'))
+            .pipe(gulp.dest(tmpPath))
   });
 }

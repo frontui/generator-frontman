@@ -3,5 +3,5 @@
 	"version": "<%= version %>",
 	"port": "<%= parseInt(port) + 3 %>",
 	"path": "../../svn/<%= name %>",
-	"staticPath": "../../svn/<%= name %>/static"
+	"staticPath": "/static"
 }
