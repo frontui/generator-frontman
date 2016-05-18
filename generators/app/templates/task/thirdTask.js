@@ -86,7 +86,7 @@ module.exports = function defaultTask(serverRoot, banner) {
     // 编译第三方框架less
     gulp.task('third:less', function(){
       return gulp.src([thirdStatic+'/less/**/**.less', '!'+ thirdStatic +'/_**/**', '!'+ thirdStatic + '/**/_*.less'])
-        .pipe($.plumber( { errorHandler: errHandler } ))
+        .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
         .pipe($.less())
         .pipe($.autoprefixer())
         .pipe(gulp.dest(thirdStatic+'/css'))
@@ -103,7 +103,7 @@ module.exports = function defaultTask(serverRoot, banner) {
 
     gulp.task('third:svnJs',  function(next) {
       return gulp.src(thirdStatic+'/js/**/**.js', {base: 'client'})
-        .pipe($.plumber( { errorHandler: errHandler } ))
+        .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
         //.pipe($.uglify({mangle: false}))
         .pipe($.uglify())
         .pipe($.header(banner, { pkg: pkg}))
@@ -120,7 +120,7 @@ module.exports = function defaultTask(serverRoot, banner) {
 
     gulp.task('third:svnImage', function(next) {
       return gulp.src(thirdStatic+'/images/**/**', {base: 'client'})
-        .pipe($.plumber( { errorHandler: errHandler } ))
+        .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
         .pipe($.imagemin({
           optimizationLevel: 5,
           progressive: true,

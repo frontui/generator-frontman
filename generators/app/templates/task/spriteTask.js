@@ -10,6 +10,7 @@ var pkg    = require('../package.json')
 var path   = require('path')
 var fs     = require('fs')
 var $      = require('gulp-load-plugins')()
+var Lib        = require('../lib')
 
 // 默认不开启 sprite
 var pngquant = require('imagemin-pngquant')
@@ -21,7 +22,7 @@ module.exports = function spriteTask() {
   // sprite
   gulp.task('merge-sprite', function(){
       var thisPath = config.staticPath+'/images/sprite'
-      var folders = Lib.getFolders(thisPath)
+      var folders = Lib.folders(thisPath)
       var tasks = folders.map(function(folder) {
           var spriteData = gulp.src(path.join(thisPath, folder, '/*.*'))
                           .pipe($.changed(config.staticPath+'/images/sprite'))
@@ -52,7 +53,7 @@ module.exports = function spriteTask() {
           })
 
       return gulp.src(config.staticPath+'/less/_sprite_all.less')
-          .pipe($.changed(config.staticPath+'/less'))
+          //.pipe($.changed(config.staticPath+'/less'))
           .pipe($.replace(/.*/g, lessFile.join('\n')))
           .pipe(gulp.dest(config.staticPath+'/less'))
 

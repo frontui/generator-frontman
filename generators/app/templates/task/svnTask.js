@@ -24,7 +24,7 @@ module.exports = function svnTask(banner) {
               .pipe($.prettify({indent_size: 2}))
               //.pipe($.changed(svn.path))
               .pipe($.replace(/\/static/g, './static'))
-              .pipe($.replace(/"(\/)bower_components\/(.*)\/([a-zA-Z0-9.]+\.js)(.*)"/g, '"'+ config.staticPath +'/js/$3$4"'))
+              .pipe($.replace(/"(\/)bower_components\/(.[^\s]*)\/([a-zA-Z0-9.\-]+\.js)(.*)"/g, '"'+ config.staticPath +'/js/$3$4"'))
               //.pipe(gulp.dest(svn.path))
               .pipe(gulp.dest(tmpPath))
   });
@@ -40,7 +40,7 @@ module.exports = function svnTask(banner) {
   // css
   gulp.task('svnCss', function(){
       return gulp.src([config.staticPath+'/css/**/**.css'], {base: 'client'})
-          .pipe($.plumber( { errorHandler: Lib.errHandler } ))
+          .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
           //.pipe($.changed(svn.staticPath))
           .pipe($.minifyCss({compatibility: 'ie7'}))
           .pipe($.header(banner, { pkg: pkg}))
@@ -48,10 +48,15 @@ module.exports = function svnTask(banner) {
           .pipe(gulp.dest(tmpPath + svn.staticPath))
   })
 
+  gulp.task('svnJs:copy', function() {
+    return gulp.src([config.staticPath+'/js/**/**', !config.staticPath+'/js/**/**.js'], {base: 'client'})
+        .pipe(gulp.dest(tmpPath + svn.staticPath))
+  });
+
   // js
-  gulp.task('svnJs', function(){
+  gulp.task('svnJs', ['svnJs:copy'], function(){
       return gulp.src([config.staticPath+'/js/**/**.js'], {base: 'client'})
-          .pipe($.plumber( { errorHandler: Lib.errHandler } ))
+          .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
           //.pipe($.changed(svn.staticPath))
           .pipe($.uglify({mangle: false}))
           .pipe($.header(banner, { pkg: pkg}))
@@ -69,7 +74,7 @@ module.exports = function svnTask(banner) {
   // images
   gulp.task('svnImage', function(){
       return gulp.src([config.staticPath+'/images/**/**', '!'+config.staticPath+'/images/sprite/sprite-**/', '!'+config.staticPath+'/images/sprite/sprite-**/**/**'])
-          .pipe($.plumber( { errorHandler: Lib.errrHandler } ))
+          .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
           //.pipe($.changed(svn.staticPath))
           // 启用压缩要先安装gulp-imagemin，时间比较长
           // npm install gulp-imagemin --save
@@ -89,7 +94,12 @@ module.exports = function svnTask(banner) {
                 .pipe(gulp.dest(svn.path+'/docs'))
   });
 
-  gulp.task('build', ['svnTemplate', 'svnCopy', 'svnCss', 'svnJs', 'svnImage', 'svnBowerJs', 'svnDoc'], function() {
+  gulp.task('mock', function() {
+    return gulp.src('../mock_data/**/**')
+        .pipe(gulp.dest(svn.path+'/mock_data'))
+  })
+
+  gulp.task('build', ['svnTemplate', 'svnCopy', 'svnCss', 'svnJs', 'svnImage', 'svnBowerJs', 'svnDoc', 'mock'], function() {
     return gulp.src(tmpPath+'/**/**')
               .pipe(gulp.dest(svn.path))
   })
