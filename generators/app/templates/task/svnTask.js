@@ -25,6 +25,7 @@ module.exports = function svnTask(banner) {
               //.pipe($.changed(svn.path))
               .pipe($.replace(/\/static/g, './static'))
               .pipe($.replace(/"(\/)bower_components\/(.[^\s]*)\/([a-zA-Z0-9.\-]+\.js)(.*)"/g, '"'+ config.staticPath +'/js/$3$4"'))
+              .pipe($.replace(/\/mock_data/g, './mock_data'))
               //.pipe(gulp.dest(svn.path))
               .pipe(gulp.dest(tmpPath))
   });
@@ -56,10 +57,12 @@ module.exports = function svnTask(banner) {
   // js
   gulp.task('svnJs', ['svnJs:copy'], function(){
       return gulp.src([config.staticPath+'/js/**/**.js'], {base: 'client'})
-          .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
+          // require.config
+          .pipe($.replace(/'(\/)bower_components\/(.[^\s]*)\/([0-9a-zA-Z\.-]*)'/g, '\'$3\''))
           //.pipe($.changed(svn.staticPath))
           .pipe($.uglify({mangle: false}))
           .pipe($.header(banner, { pkg: pkg}))
+          .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
           //.pipe(gulp.dest(svn.staticPath))
           .pipe(gulp.dest(tmpPath + svn.staticPath))
   })
