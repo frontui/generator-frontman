@@ -21,9 +21,9 @@ module.exports = function defaultTask(serverRoot) {
   // 模板
   gulp.task('template', function(){
   	return gulp.src([config.template + '/**/**.html', '!'+ config.template + '/**/_**.html', '!'+ config.template +'/_**/*.html'])
-                  .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
           				.pipe(template(config))
                   .pipe($.prettify({indent_size: 2}))
+                  .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
           				.pipe(gulp.dest(config.destPath))
                   .pipe(connect.reload())
   });
@@ -31,11 +31,13 @@ module.exports = function defaultTask(serverRoot) {
   // less
   gulp.task('less', function(){
       return gulp.src([config.staticPath+'/less/**/**.less', '!'+ config.staticPath +'/_**/**', '!'+ config.staticPath + '/**/_*.less'])
-                  .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
+                  .pipe($.sourcemaps.init())
                   .pipe($.less())
                   .pipe($.autoprefixer())
                   // 转换成rem单位
                   .pipe(px2rem())
+                  .pipe($.plumber( { errorHandler: $.notify.onError('错误: <%= error.message %>') } ))
+                  .pipe($.sourcemaps.write(config.staticPath+'/css'))
                   .pipe(gulp.dest(config.staticPath+'/css'))
                   .pipe(connect.reload())
   })
